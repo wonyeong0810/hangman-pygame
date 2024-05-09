@@ -1,4 +1,4 @@
-import pygame, time, sys, requests
+import pygame, time, sys, requests, random
 
 HEIGHT = 800
 WIDTH = 800
@@ -80,6 +80,20 @@ def draw(display):
     text_rect.centery = HEIGHT - 100
     display.blit(text, text_rect)
 
+# 단어가 길면 힌트주는 함수
+def hint():
+    global word,hideword
+    if len(word) > 5:
+        for i in range(3):
+            j = random.randrange(0, len(word)-1)
+            inword = word[j]
+            for i in range(len(word)):
+                if(word[i] == inword): # 만약 입력 받은 알파벳이 정답에 있으면 hideword의 같은 위치에 입력 받은 알파벳 저장 
+                    hideword[i] = inword
+
+            
+        
+
 # 게임이 돌아가는 메인 함수
 def main():
     pygame.init()
@@ -91,8 +105,9 @@ def main():
 
         if vicfeat == 1: # 이겼을 때
             print("승리")
-            run = True
+            run = False
         elif vicfeat == 2: # 졌을 때
+            print(f"단어는 {word}였습니다")
             print("패배")
             run = False
 
@@ -109,5 +124,6 @@ def main():
     return
 
 get_word()
+hint()
 main()
 sys.exit()
